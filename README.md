@@ -10,10 +10,15 @@ provided in its README file.
 
 ## Modules
 
-### [Colors Module](lib/colors)
+### [Colors Module]
 
 The colors module provides functions to easily add colored text output to your
-bash scripts, improving readability and highlighting important information.
+bash scripts.
+
+### [Logging Module]
+
+The logging module provides functions for logging messages at various severity
+levels.
 
 ## Contributing
 
@@ -30,5 +35,7 @@ License v3.0 or later - see the [LICENSE] file for details.
 
 
 <!-- links -->
+[Colors Module]: lib/colors
+[Logging Module]: lib/logging
 [Conventional Commits]: https://conventionalcommits.org
 [LICENSE]: LICENSE
