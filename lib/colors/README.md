@@ -1,6 +1,6 @@
 # colors.sh
 
-A simple color module for Bash scripts.
+A Bash module for colored text output.
 
 ## Usage
 
@@ -35,7 +35,7 @@ If you wish to override any of the color values, set the appropriate variable
 before sourcing:
 
 ```bash
-COLORS_BLUE="\e[38;2;0;0;255m" # Blue RGB
+BASHLIB_COLORS_BLUE="\e[38;2;0;0;255m" # Blue RGB
 source colors.sh
 ```
 
@@ -46,10 +46,10 @@ source colors.sh
 
 Upon initialization, `3` global variables are set:
 
-- `COLORS_ENABLED`: A string variable set to `true`.
-- `COLORS`: A read-only associative array containing ANSI color codes.
-- `COLORS_OFF`: A read-only associative array containing ANSI color codes to
-                turn off the respective colors.
+- `BASHLIB_COLORS_ENABLED`: Set to `true`.
+- `BASHLIB_COLORS`: A read-only associative array containing ANSI color codes.
+- `BASHLIB_COLORS_OFF`: A read-only associative array containing ANSI color
+                        codes to turn off the respective colors.
 
 ### Functions
 
@@ -60,9 +60,6 @@ functions:
 
 ```bash
 colors_enable
-```
-
-```bash
 colors_disable
 ```
 
@@ -72,15 +69,15 @@ These functions print colored strings of text to stderr, ensuring that stdout
 remains unaffected. Each function automatically appends a newline character.
 
 ```bash
-print_black "Text"
-print_red "Text"
-print_green "Text"
-print_yellow "Text"
-print_blue "Text"
+print_black   "Text"
+print_red     "Text"
+print_green   "Text"
+print_yellow  "Text"
+print_blue    "Text"
 print_magenta "Text"
-print_cyan "Text"
-print_white "Text"
-print_bold "Text"
+print_cyan    "Text"
+print_white   "Text"
+print_bold    "Text"
 ```
 
 #### String Functions
@@ -90,13 +87,13 @@ newline character. This allows the text to be captured into variables for
 further use.
 
 ```bash
-black_text="$(black_str "Text")"
-red_text="$(red_str "Text")"
-green_text="$(green_str "Text")"
-yellow_text="$(yellow_str "Text")"
-blue_text="$(blue_str "Text")"
+black_text="$(black_str     "Text")"
+red_text="$(red_str         "Text")"
+green_text="$(green_str     "Text")"
+yellow_text="$(yellow_str   "Text")"
+blue_text="$(blue_str       "Text")"
 magenta_text="$(magenta_str "Text")"
-cyan_text="$(cyan_str "Text")"
-white_text="$(white_str "Text")"
-bold_text="$(bold_str "Text")"
+cyan_text="$(cyan_str       "Text")"
+white_text="$(white_str     "Text")"
+bold_text="$(bold_str       "Text")"
 ```

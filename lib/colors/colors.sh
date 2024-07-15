@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-#  colors.sh - A simple color module for Bash scripts.
+#  colors.sh - A Bash module for colored text output.
 #
 #  Copyright (C) 2024  Daniel Kuehn <daniel@kuehn.foo>
 #
@@ -18,8 +18,8 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-colors_enable()  { COLORS_ENABLED="true" ; }
-colors_disable() { COLORS_ENABLED="false"; }
+colors_enable()  { BASHLIB_COLORS_ENABLED="true";  }
+colors_disable() { BASHLIB_COLORS_ENABLED="false"; }
 
 print_black()   { __colors_print "$(black_str   "$*")"; }
 print_red()     { __colors_print "$(red_str     "$*")"; }
@@ -42,43 +42,41 @@ white_str()   { __colors_color_str "white"   "$*"; }
 bold_str()    { __colors_color_str "bold"    "$*"; }
 
 __colors_init() {
-	declare -g COLORS_ENABLED="true"
-	declare -grA COLORS=(
-		["black"]="${COLORS_BLACK:-\e[30m}"
-		["red"]="${COLORS_RED:-\e[31m}"
-		["green"]="${COLORS_GREEN:-\e[32m}"
-		["yellow"]="${COLORS_YELLOW:-\e[33m}"
-		["blue"]="${COLORS_BLUE:-\e[34m}"
-		["magenta"]="${COLORS_MAGENTA:-\e[35m}"
-		["cyan"]="${COLORS_CYAN:-\e[36m}"
-		["white"]="${COLORS_WHITE:-\e[37m}"
-		["bold"]="${COLORS_BOLD:-\e[1m}"
+	declare -g BASHLIB_COLORS_ENABLED="true"
+	declare -grA BASHLIB_COLORS=(
+		["black"]="${BASHLIB_COLORS_BLACK:-\e[30m}"
+		["red"]="${BASHLIB_COLORS_RED:-\e[31m}"
+		["green"]="${BASHLIB_COLORS_GREEN:-\e[32m}"
+		["yellow"]="${BASHLIB_COLORS_YELLOW:-\e[33m}"
+		["blue"]="${BASHLIB_COLORS_BLUE:-\e[34m}"
+		["magenta"]="${BASHLIB_COLORS_MAGENTA:-\e[35m}"
+		["cyan"]="${BASHLIB_COLORS_CYAN:-\e[36m}"
+		["white"]="${BASHLIB_COLORS_WHITE:-\e[37m}"
+		["bold"]="${BASHLIB_COLORS_BOLD:-\e[1m}"
 	)
-	declare -grA COLORS_OFF=(
-		["black"]="${COLORS_OFF_BLACK:-\e[39m}"
-		["red"]="${COLORS_OFF_RED:-\e[39m}"
-		["green"]="${COLORS_OFF_GREEN:-\e[39m}"
-		["yellow"]="${COLORS_OFF_YELLOW:-\e[39m}"
-		["blue"]="${COLORS_OFF_BLUE:-\e[39m}"
-		["magenta"]="${COLORS_OFF_MAGENTA:-\e[39m}"
-		["cyan"]="${COLORS_OFF_CYAN:-\e[39m}"
-		["white"]="${COLORS_OFF_WHITE:-\e[39m}"
-		["bold"]="${COLORS_OFF_BOLD:-\e[22m}"
+	declare -grA BASHLIB_COLORS_OFF=(
+		["black"]="${BASHLIB_COLORS_OFF_BLACK:-\e[39m}"
+		["red"]="${BASHLIB_COLORS_OFF_RED:-\e[39m}"
+		["green"]="${BASHLIB_COLORS_OFF_GREEN:-\e[39m}"
+		["yellow"]="${BASHLIB_COLORS_OFF_YELLOW:-\e[39m}"
+		["blue"]="${BASHLIB_COLORS_OFF_BLUE:-\e[39m}"
+		["magenta"]="${BASHLIB_COLORS_OFF_MAGENTA:-\e[39m}"
+		["cyan"]="${BASHLIB_COLORS_OFF_CYAN:-\e[39m}"
+		["white"]="${BASHLIB_COLORS_OFF_WHITE:-\e[39m}"
+		["bold"]="${BASHLIB_COLORS_OFF_BOLD:-\e[22m}"
 	)
 }
 
-__colors_print() {
-	local string="$*"
-
-	printf >&2 "%s\n" "$string"
-}
+__colors_print() { printf >&2 "%s\n" "$1"; }
 
 __colors_color_str() {
-	local color="$1"; shift
-	local string="$*"
+	local color="$1"
+	local string="$2"
+	local color_on="${BASHLIB_COLORS[$color]}"
+	local color_off="${BASHLIB_COLORS_OFF[$color]}"
 
-	if [[ "$COLORS_ENABLED" == "true" ]]; then
-		printf "%b%s%b" "${COLORS[$color]}" "$string" "${COLORS_OFF[$color]}"
+	if [[ "$BASHLIB_COLORS_ENABLED" == "true" ]]; then
+		printf "%b%s%b" "$color_on" "$string" "$color_off"
 	else
 		printf "%s" "$string"
 	fi
